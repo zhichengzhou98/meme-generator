@@ -29,7 +29,7 @@ class Character:
     name_en: str
 
 
-Characters = [
+characters = [
     # pixiv@lowLDR
     Character("心奈", "kokona"),
     # bilibili@mooooen
@@ -43,7 +43,7 @@ Characters = [
 
 
 help_character = "角色编号：" + "，".join(
-    [f"{i+1}、{Characters[i].name_cn}" for i in range(len(Characters))]
+    [f"{i+1}、{characters[i].name_cn}" for i in range(len(characters))]
 )
 help_position = "消息框的位置，包含 left、right、random"
 
@@ -57,7 +57,9 @@ class Model(MemeArgsModel):
 
 args_type = MemeArgsType(
     args_model=Model,
-    args_examples=[Model(character=c, position="right") for c in range(1, 10)],
+    args_examples=[
+        Model(character=c + 1, position="right") for c in range(len(characters))
+    ],
     parser_options=[
         ParserOption(
             names=["-c", "--character"],
@@ -83,11 +85,11 @@ def ba_say(images, texts: list[str], args: Model):
     text = texts[0]
 
     if args.character == 0:
-        character = random.choice(Characters)
-    elif args.character <= len(Characters):
-        character = Characters[args.character - 1]
+        character = random.choice(characters)
+    elif args.character <= len(characters):
+        character = characters[args.character - 1]
     else:
-        raise MemeFeedback(f"角色编号错误，请输入1-{len(Characters)}")
+        raise MemeFeedback(f"角色编号错误，请输入1-{len(characters)}")
 
     if args.position in ["left", "right"]:
         position = args.position
@@ -126,9 +128,9 @@ add_meme(
     keywords=["ba说"],
     shortcuts=[
         CommandShortcut(
-            key=f"{Characters[i].name_cn}说", args=["--character", f"{i+1}"]
+            key=f"{characters[i].name_cn}说", args=["--character", f"{i+1}"]
         )
-        for i in range(len(Characters))
+        for i in range(len(characters))
     ],
     tags=MemeTags.arisu
     | MemeTags.izuna
