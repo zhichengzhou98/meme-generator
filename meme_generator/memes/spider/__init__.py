@@ -1,6 +1,6 @@
+import random
 from datetime import datetime
 from pathlib import Path
-import random
 
 from PIL.Image import Image as IMG
 from pil_utils import BuildImage
@@ -12,7 +12,7 @@ img_dir = Path(__file__).parent / "images"
 
 
 def spider(images: list[BuildImage], texts, args):
-    head = images[0].convert("RGBA").circle().resize((80,80))
+    head = images[0].convert("RGBA").circle().resize((80, 80))
     # fmt: off
     Xs = [
         174, 174, 174, 169,
@@ -32,7 +32,7 @@ def spider(images: list[BuildImage], texts, args):
     # fmt: on
     frames: list[IMG] = []
     for i in range(52):
-        pos = (Xs[i],24+random.randint(-1,1))
+        pos = (Xs[i], 24 + random.randint(-1, 1))
         frame = BuildImage.open(img_dir / f"{i}.png")
         frame.paste(head, pos, alpha=True)
         frames.append(frame.image)
@@ -45,6 +45,6 @@ add_meme(
     min_images=1,
     max_images=1,
     keywords=["蜘蛛", "蜘蛛爬"],
-    date_created=datetime(2025,4,27),
-    date_modified=datetime(2025,4,27),
+    date_created=datetime(2025, 4, 27),
+    date_modified=datetime(2025, 4, 27),
 )
